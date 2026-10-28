@@ -4,7 +4,7 @@ import smartTrashLogo from "./assets/bin.png";
 import recyclingImage from "./assets/recycling.png";
 import homeHeroImage from "./assets/home-hero.png";
 
-const API = "http://localhost:5000/api";
+const API = "https://ecotrack-backend-zzpm.onrender.com/api";
 
 function App() {
   const [page, setPage] = useState("home");
@@ -1212,9 +1212,9 @@ async function createWorker(e) {
                     )}
                     {complaint.photo && (
                       <div style={{ marginTop: 10 }}>
-                        <a href={`http://localhost:5000${complaint.photo}`} target="_blank" rel="noreferrer">
+                        <a href={`https://ecotrack-backend-zzpm.onrender.com${complaint.photo}`} target="_blank" rel="noreferrer">
                           <img
-                            src={`http://localhost:5000${complaint.photo}`}
+                            src={`https://ecotrack-backend-zzpm.onrender.com${complaint.photo}`}
                             alt="Reported waste"
                             loading="lazy"
                             style={{ width: 160, maxHeight: 120, objectFit: "cover", borderRadius: 8, border: "1px solid #e5e4e7" }}
@@ -1233,12 +1233,12 @@ async function createWorker(e) {
     </p>
 
     <a
-      href={`http://localhost:5000${complaint.completionPhoto}`}
+      href={`https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`}
       target="_blank"
       rel="noreferrer"
     >
       <img
-        src={`http://localhost:5000${complaint.completionPhoto}`}
+        src={`https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`}
         alt="Cleaning completion proof"
         loading="lazy"
         style={{
