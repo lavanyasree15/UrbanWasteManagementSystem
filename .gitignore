@@ -1,0 +1,17 @@
+
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment secrets
+.env
+client/.env
+server/.env
+
+# Build output
+client/dist/
+
+# Uploaded files
+server/uploads/*
+!server/uploads/.gitkeep

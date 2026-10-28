@@ -1,0 +1,26 @@
+:root {
+  color-scheme: light;
+
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #ffffff;
+  --border: #e5e4e7;
+  --code-bg: #f8f7fb;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+}
+
+body {
+  background: #ffffff;
+  color: #6b6375;
+}
+
+.auth-intro,
+.auth-panel,
+.sidebar,
+.main-content,
+.content-card,
+.stat-card {
+  background: #ffffff;
+}
