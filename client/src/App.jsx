@@ -1240,7 +1240,8 @@ async function createWorker(e) {
   </div>
 )}
 
-                    {user?.role === "citizen" && complaint.completionPhoto && (
+                   
+{user?.role === "citizen" && complaint.completionPhoto && (
   <div style={{ marginTop: 12 }}>
     <strong>✅ Cleaning completed</strong>
 
@@ -1250,12 +1251,20 @@ async function createWorker(e) {
     </p>
 
     <a
-      href={`https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`}
+      href={
+        complaint.completionPhoto.startsWith("http")
+          ? complaint.completionPhoto
+          : `https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`
+      }
       target="_blank"
       rel="noreferrer"
     >
       <img
-        src={`https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`}
+        src={
+          complaint.completionPhoto.startsWith("http")
+            ? complaint.completionPhoto
+            : `https://ecotrack-backend-zzpm.onrender.com${complaint.completionPhoto}`
+        }
         alt="Cleaning completion proof"
         loading="lazy"
         style={{
@@ -1275,6 +1284,7 @@ async function createWorker(e) {
     )}
   </div>
 )}
+
                     
 {user?.role === "admin" && (
   <div style={{ marginTop: 10 }}>
