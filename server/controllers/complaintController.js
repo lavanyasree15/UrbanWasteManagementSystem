@@ -1,12 +1,11 @@
 const Complaint = require("../models/Complaint");
 
+
 const createComplaint = async (req, res) => {
   try {
     const { category, description } = req.body;
-
     let location = req.body.location;
 
-    // FormData sends location as a JSON string
     if (typeof location === "string") {
       try {
         location = JSON.parse(location);
@@ -25,6 +24,16 @@ const createComplaint = async (req, res) => {
       });
     }
 
+    let photo = "";
+
+    if (req.file) {
+      if (!req.uploadToCloudinary) {
+        throw new Error("Cloudinary upload helper is missing.");
+      }
+
+      photo = await req.uploadToCloudinary(req.file);
+    }
+
     const complaint = await Complaint.create({
       citizen: req.user.id,
       category,
@@ -34,9 +43,7 @@ const createComplaint = async (req, res) => {
         latitude: location.latitude ?? null,
         longitude: location.longitude ?? null
       },
-      photo: req.file
-        ? `/uploads/${req.file.filename}`
-        : ""
+      photo
     });
 
     return res.status(201).json({
@@ -310,6 +317,7 @@ const getWorkers = async (req, res) => {
   }
 };
 
+
 const completeComplaint = async (req, res) => {
   try {
     if (req.user.role !== "worker") {
@@ -320,6 +328,7 @@ const completeComplaint = async (req, res) => {
     }
 
     const complaint = await Complaint.findById(req.params.id);
+
     if (!complaint) {
       return res.status(404).json({
         success: false,
@@ -327,7 +336,6 @@ const completeComplaint = async (req, res) => {
       });
     }
 
-    // Only the assigned worker can complete this complaint
     if (
       !complaint.assignedWorker ||
       complaint.assignedWorker.toString() !== req.user.id
@@ -352,7 +360,14 @@ const completeComplaint = async (req, res) => {
       });
     }
 
-    complaint.completionPhoto = `/uploads/${req.file.filename}`;
+    if (!req.uploadToCloudinary) {
+      throw new Error("Cloudinary upload helper is missing.");
+    }
+
+    const completionPhoto =
+      await req.uploadToCloudinary(req.file);
+
+    complaint.completionPhoto = completionPhoto;
     complaint.status = "Resolved";
     complaint.resolvedAt = new Date();
     complaint.acknowledgement =
@@ -374,6 +389,7 @@ const completeComplaint = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   createComplaint,

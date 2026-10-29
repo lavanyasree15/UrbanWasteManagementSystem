@@ -20,6 +20,7 @@ const {
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddleware = require("../middleware/adminMiddleware");
 
+// Store uploaded images temporarily in memory
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
@@ -36,12 +37,20 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 });
 
+// Upload image to Cloudinary
 const uploadToCloudinary = (file) => {
+  console.log("Cloudinary upload called:", file.originalname);
+
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       { folder: "ecotrack" },
       (error, result) => {
-        if (error) return reject(error);
+        if (error) {
+          console.error("Cloudinary error:", error);
+          return reject(error);
+        }
+
+        console.log("Cloudinary URL:", result.secure_url);
         resolve(result.secure_url);
       }
     );
@@ -50,6 +59,7 @@ const uploadToCloudinary = (file) => {
   });
 };
 
+// Make helper available to the complaint controller
 router.use((req, res, next) => {
   req.uploadToCloudinary = uploadToCloudinary;
   next();

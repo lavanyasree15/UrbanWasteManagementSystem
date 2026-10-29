@@ -5,7 +5,6 @@ import recyclingImage from "./assets/recycling.png";
 import homeHeroImage from "./assets/home-hero.png";
 
 const API = "https://ecotrack-backend-zzpm.onrender.com/api";
-
 function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
@@ -1211,17 +1210,35 @@ async function createWorker(e) {
                       </small>
                     )}
                     {complaint.photo && (
-                      <div style={{ marginTop: 10 }}>
-                        <a href={`https://ecotrack-backend-zzpm.onrender.com${complaint.photo}`} target="_blank" rel="noreferrer">
-                          <img
-                            src={`https://ecotrack-backend-zzpm.onrender.com${complaint.photo}`}
-                            alt="Reported waste"
-                            loading="lazy"
-                            style={{ width: 160, maxHeight: 120, objectFit: "cover", borderRadius: 8, border: "1px solid #e5e4e7" }}
-                          />
-                        </a>
-                      </div>
-                    )}
+  <div style={{ marginTop: 10 }}>
+    <a
+      href={
+        complaint.photo.startsWith("http")
+          ? complaint.photo
+          : `${API}${complaint.photo}`
+      }
+      target="_blank"
+      rel="noreferrer"
+    >
+      <img
+        src={
+          complaint.photo.startsWith("http")
+            ? complaint.photo
+            : `${API}${complaint.photo}`
+        }
+        alt="Reported waste"
+        loading="lazy"
+        style={{
+          width: 160,
+          maxHeight: 120,
+          objectFit: "cover",
+          borderRadius: 8,
+          border: "1px solid #e5e4e7"
+        }}
+      />
+    </a>
+  </div>
+)}
 
                     {user?.role === "citizen" && complaint.completionPhoto && (
   <div style={{ marginTop: 12 }}>
